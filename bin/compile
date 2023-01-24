@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+set -e
+
+NGINX_VERSION=1.20.2
+NGX_HEADERS_MORE_VERSION=0.33
+
+apt-get update -y
+apt-get install -y build-essential libpcre3-dev zlib1g-dev libssl-dev
+
+cd /tmp
+wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
+tar -xzvf nginx-${NGINX_VERSION}.tar.gz
+cd nginx-${NGINX_VERSION}
+
+wget https://github.com/openresty/headers-more-nginx-module/archive/v${NGX_HEADERS_MORE_VERSION}.tar.gz
+tar -xzvf v${NGX_HEADERS_MORE_VERSION}.tar.gz
+
+./configure --add-module=headers-more-nginx-module-${NGX_HEADERS_MORE_VERSION}
+make
+make install
